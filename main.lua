@@ -355,7 +355,6 @@ local Window = Rayfield:CreateWindow({
 
 local HomeTab = Window:CreateTab("Home", 14219650242)
 HomeTab:CreateLabel("Welcome to Roblox Enhanced!")
-HomeTab:CreateLabel("Created by DeiTsuki")
 HomeTab:CreateButton({
     Name = "My Github",
     Callback = function()
@@ -394,6 +393,12 @@ HomeTab:CreateButton({
         Rayfield:Destroy()
     end
 })
+HomeTab:CreateDivider()
+
+HomeTab:CreateLabel("Author: DeiTsuki")
+HomeTab:CreateLabel("Version: 1.0.0")
+HomeTab:CreateLabel("Discord: deitsuki_")
+HomeTab:CreateLabel("Github: github.com/DeiTsukiii")
 
 local EspTab = Window:CreateTab("ESP", 4483362458)
 EspTab:CreateToggle({
