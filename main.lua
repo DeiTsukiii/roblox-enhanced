@@ -362,6 +362,7 @@ HomeTab:CreateButton({
         setclipboard("https://github.com/DeiTsukiii")
         Rayfield:Notify({
             Title = "Copied to Clipboard",
+            Icon = 111899568071911,
             Content = "Github link has been copied to clipboard.",
             Duration = 5
         })
@@ -467,6 +468,7 @@ AimlockKeyInput = AimlockTab:CreateInput({
             AimlockKeyInput:Set("P")
             Rayfield:Notify({
                 Title = "Invalid Key",
+                Icon = 111899568071911,
                 Content = "Please enter a valid key.",
                 Duration = 5
             })
@@ -648,6 +650,7 @@ FlyKeyInput = MeTab:CreateInput({
             FlyKeyInput:Set("U")
             Rayfield:Notify({
                 Title = "Invalid Key",
+                Icon = 111899568071911,
                 Content = "Please enter a valid key.",
                 Duration = 5
             })
