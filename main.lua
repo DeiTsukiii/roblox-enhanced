@@ -400,7 +400,7 @@ HomeTab:CreateLabel("Version: 1.0.0")
 HomeTab:CreateLabel("Discord: deitsuki_")
 HomeTab:CreateLabel("Github: github.com/DeiTsukiii")
 
-local EspTab = Window:CreateTab("ESP", 4483362458)
+local EspTab = Window:CreateTab("ESP", 13321848320)
 EspTab:CreateToggle({
    Name = "Enabled",
    CurrentValue = false,
@@ -509,7 +509,10 @@ AimlockTab:CreateDropdown({
 
 local PlayersTab = Window:CreateTab("Players", 81489458260315)
 local SelectedPlayer = nil
+local SearchMode = false
+local SearchUsername = ""
 
+PlayersTab:CreateSection("All Players")
 local SelectedPlayerDropdown = PlayersTab:CreateDropdown({
    Name = "Selected Player",
    Options = {"N/A"},
@@ -518,6 +521,26 @@ local SelectedPlayerDropdown = PlayersTab:CreateDropdown({
    Flag = "SelectedPlayer",
    Callback = function(Options)
        SelectedPlayer = Options[1]
+   end,
+})
+
+PlayersTab:CreateSection("Search Player")
+PlayersTab:CreateToggle({
+    Name = "Search mode",
+    CurrentValue = false,
+    Flag = "SearchMode",
+    Callback = function(Value)
+        SearchMode = Value
+    end
+})
+PlayersTab:CreateInput({
+   Name = "Username",
+   CurrentValue = "",
+   PlaceholderText = "username",
+   RemoveTextAfterFocusLost = false,
+   Flag = "SearchUsername",
+   Callback = function(Text)
+       SearchUsername = Text
    end,
 })
 
@@ -535,11 +558,25 @@ refreshPlayerList()
 table.insert(connections, Players.PlayerAdded:Connect(refreshPlayerList))
 table.insert(connections, Players.PlayerRemoving:Connect(refreshPlayerList))
 
+PlayersTab:CreateSection("Actions")
 PlayersTab:CreateButton({
     Name = "Spectate",
     Callback = function()
-        if SelectedPlayer and SelectedPlayer ~= "N/A" then
-            local player = Players:FindFirstChild(SelectedPlayer)
+        local targetName = SelectedPlayer
+        if SearchMode then
+            targetName = SearchUsername
+        end
+        if targetName and (targetName == LocalPlayer.Name or not Players:FindFirstChild(targetName)) then
+            Rayfield:Notify({
+                Title = "Invalid Player",
+                Image = 111899568071911,
+                Content = "Please enter a valid username.",
+                Duration = 5
+            })
+            return
+        end
+        if targetName then
+            local player = Players:FindFirstChild(targetName)
             if player and player.Character then
                 local humanoid = player.Character:FindFirstChildOfClass("Humanoid")
                 if humanoid and workspace.CurrentCamera then
@@ -565,14 +602,25 @@ PlayersTab:CreateButton({
 PlayersTab:CreateButton({
     Name = "Teleport to Player",
     Callback = function()
-        if SelectedPlayer and SelectedPlayer ~= "N/A" then
-            local player = Players:FindFirstChild(SelectedPlayer)
-            if player and player.Character and LocalPlayer.Character then
-                local targetRoot = player.Character:FindFirstChild("HumanoidRootPart")
-                local myRoot = LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-                if targetRoot and myRoot then
-                    myRoot.CFrame = targetRoot.CFrame + Vector3.new(0, 5, 0)
-                end
+        local targetName = SelectedPlayer
+        if SearchMode then
+            targetName = SearchUsername
+        end
+        if not targetName or targetName == LocalPlayer.Name or not Players:FindFirstChild(targetName) then
+            Rayfield:Notify({
+                Title = "Invalid Player",
+                Image = 111899568071911,
+                Content = "Please enter a valid username.",
+                Duration = 5
+            })
+            return
+        end
+        local player = Players:FindFirstChild(targetName)
+        if player and player.Character and LocalPlayer.Character then
+            local targetRoot = player.Character:FindFirstChild("HumanoidRootPart")
+            local myRoot = LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+            if targetRoot and myRoot then
+                myRoot.CFrame = targetRoot.CFrame + Vector3.new(0, 5, 0)
             end
         end
     end
@@ -586,7 +634,7 @@ MeTab:CreateSlider({
    Name = "Walk Speed",
    Range = {16, 1000},
    Increment = 1,
-   Suffix = "WalkSpeed",
+   Suffix = "studs/s",
    CurrentValue = 16,
    Flag = "WalkSpeed",
    Callback = function(Value)
@@ -602,7 +650,7 @@ MeTab:CreateSlider({
    Name = "Jump Power",
    Range = {50, 500},
    Increment = 1,
-   Suffix = "JumpPower",
+   Suffix = "studs/s",
    CurrentValue = 50,
    Flag = "JumpPower",
    Callback = function(Value)
@@ -632,7 +680,7 @@ MeTab:CreateSlider({
    Name = "Fly Speed",
    Range = {20, 300},
    Increment = 1,
-   Suffix = "FlySpeed",
+   Suffix = "studs/s",
    CurrentValue = 20,
    Flag = "FlySpeed",
    Callback = function(Value)
@@ -669,7 +717,7 @@ MeTab:CreateSlider({
    Name = "Hip Height",
    Range = {0, 50},
    Increment = 0.5,
-   Suffix = "HipHeight",
+   Suffix = "studs",
    CurrentValue = 2,
    Flag = "HipHeight",
    Callback = function(Value)
@@ -685,8 +733,8 @@ MeTab:CreateSlider({
    Name = "Gravity",
    Range = {0, 500},
    Increment = 1,
-   Suffix = "Gravity",
-   CurrentValue = workspace.Gravity,
+   Suffix = "studs/s²",
+   CurrentValue = math.floor(workspace.Gravity),
    Flag = "Gravity",
    Callback = function(Value)
         workspace.Gravity = Value
