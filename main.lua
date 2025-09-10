@@ -761,7 +761,7 @@ MeTab:CreateButton({
 
 -- Anti AFK Kick
 MeTab:CreateButton({
-    Name = "Piano - Talentless",
+    Name = "Anti AFK Kick",
     Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/hassanxzayn-lua/Anti-afk/main/antiafkbyhassanxzyn", true))()
     end
