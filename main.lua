@@ -758,3 +758,11 @@ MeTab:CreateButton({
         loadstring(game:HttpGet("https://raw.githubusercontent.com/hellohellohell012321/TALENTLESS/main/TALENTLESS", true))()
     end
 })
+
+-- Anti AFK Kick
+MeTab:CreateButton({
+    Name = "Piano - Talentless",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/hassanxzayn-lua/Anti-afk/main/antiafkbyhassanxzyn", true))()
+    end
+})
