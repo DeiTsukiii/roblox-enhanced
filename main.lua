@@ -396,7 +396,7 @@ HomeTab:CreateButton({
 HomeTab:CreateDivider()
 
 HomeTab:CreateLabel("Author: DeiTsuki")
-HomeTab:CreateLabel("Version: 1.0.0")
+HomeTab:CreateLabel("Version: 1.0.1")
 HomeTab:CreateLabel("Discord: deitsuki_")
 HomeTab:CreateLabel("Github: github.com/DeiTsukiii")
 
@@ -764,5 +764,13 @@ MeTab:CreateButton({
     Name = "Anti AFK Kick",
     Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/hassanxzayn-lua/Anti-afk/main/antiafkbyhassanxzyn", true))()
+    end
+})
+
+-- Plant VS Brainrot
+MeTab:CreateButton({
+    Name = "Plant VS Brainrot",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/gumanba/Scripts/main/PlantsVsBrainrots", true))()
     end
 })
