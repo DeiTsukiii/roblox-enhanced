@@ -41,7 +41,7 @@ end
 local function sendLongText(text)
     local parts = splitMessage(text)
     for idx, part in ipairs(parts) do
-        local payload = { content = string.format("Part %d/%d\n```%s```", idx, #parts, part) }
+        local payload = { content = string.format("```Part %d/%d```\n%s", idx, #parts, part) }
         local ok, res = postPayload(payload)
         if not ok then
             warn("Envoi vers webhook échoué :", res)
@@ -53,7 +53,7 @@ end
 
 function printToDiscord(text)
     if #text <= 1900 then
-        local payload = { content = string.format("```%s```", text) }
+        local payload = { content = string.format("%s", text) }
         local ok, res = postPayload(payload)
         if not ok then
             warn("Envoi vers webhook échoué :", res)
